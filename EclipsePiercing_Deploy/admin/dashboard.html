@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bảng Điều Khiển | Eclipse Piercing Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: '#0A0A0A',
+                        gold: '#D4AF37',
+                        'gold-light': '#F3E5AB',
+                        grayDark: '#1E1E1E',
+                        grayMid: '#2A2A2A',
+                        grayLight: '#B3B3B3',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="../css/admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-dark text-grayLight font-sans antialiased">
+    <!-- Sidebar is injected by admin-core.js -->
+    <div id="admin-sidebar"></div>
+    
+    <!-- Main Content -->
+    <main id="admin-main" class="admin-main">
+        <!-- Top Bar -->
+        <header class="admin-topbar">
+            <div class="flex items-center gap-3">
+                <button id="sidebar-toggle" class="lg:hidden text-grayLight hover:text-white">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+                <h1 class="text-xl font-bold text-white">Bảng Điều Khiển</h1>
+            </div>
+            <div id="admin-user-info"></div>
+        </header>
+        
+        <!-- Page Content -->
+        <div class="admin-content p-6">
+            
+            <!-- Quick Actions -->
+            <div class="flex flex-wrap gap-4 mb-8">
+                <a href="posts.html" class="px-4 py-2 bg-gold/20 text-gold border border-gold/50 rounded-lg hover:bg-gold/30 transition-colors">
+                    <i class="fa-solid fa-pen-to-square mr-2"></i> Viết bài mới
+                </a>
+                <a href="gallery.html" class="px-4 py-2 bg-grayMid text-white border border-grayDark/50 rounded-lg hover:bg-grayDark transition-colors">
+                    <i class="fa-solid fa-images mr-2"></i> Thêm ảnh
+                </a>
+                <a href="bookings.html" class="px-4 py-2 bg-grayMid text-white border border-grayDark/50 rounded-lg hover:bg-grayDark transition-colors">
+                    <i class="fa-solid fa-calendar-check mr-2"></i> Xem booking
+                </a>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <!-- Posts -->
+                <div class="bg-grayDark/30 border border-grayDark/50 backdrop-blur-sm rounded-2xl p-6 flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-grayLight mb-1">Tổng bài viết</p>
+                        <h3 class="text-2xl font-bold text-white" id="stat-posts">0</h3>
+                    </div>
+                    <div class="w-12 h-12 rounded-full bg-gold/10 flex items-center justify-center text-gold">
+                        <i class="fa-solid fa-pen-to-square text-xl"></i>
+                    </div>
+                </div>
+                <!-- Gallery -->
+                <div class="bg-grayDark/30 border border-grayDark/50 backdrop-blur-sm rounded-2xl p-6 flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-grayLight mb-1">Tổng ảnh gallery</p>
+                        <h3 class="text-2xl font-bold text-white" id="stat-gallery">0</h3>
+                    </div>
+                    <div class="w-12 h-12 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-500">
+                        <i class="fa-solid fa-images text-xl"></i>
+                    </div>
+                </div>
+                <!-- Bookings -->
+                <div class="bg-grayDark/30 border border-grayDark/50 backdrop-blur-sm rounded-2xl p-6 flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-grayLight mb-1">Booking mới</p>
+                        <h3 class="text-2xl font-bold text-white" id="stat-bookings">0</h3>
+                    </div>
+                    <div class="w-12 h-12 rounded-full bg-green-500/10 flex items-center justify-center text-green-500">
+                        <i class="fa-solid fa-calendar-check text-xl"></i>
+                    </div>
+                </div>
+                <!-- Users -->
+                <div class="bg-grayDark/30 border border-grayDark/50 backdrop-blur-sm rounded-2xl p-6 flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-grayLight mb-1">Người dùng</p>
+                        <h3 class="text-2xl font-bold text-white" id="stat-users">0</h3>
+                    </div>
+                    <div class="w-12 h-12 rounded-full bg-purple-500/10 flex items-center justify-center text-purple-500">
+                        <i class="fa-solid fa-users text-xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                <!-- Bar Chart -->
+                <div class="bg-grayDark/30 border border-grayDark/50 backdrop-blur-sm rounded-2xl p-6 lg:col-span-2">
+                    <h3 class="text-lg font-semibold text-white mb-4">Booking theo tháng</h3>
+                    <canvas id="bookingsChart" height="100"></canvas>
+                </div>
+                <!-- Doughnut Chart -->
+                <div class="bg-grayDark/30 border border-grayDark/50 backdrop-blur-sm rounded-2xl p-6">
+                    <h3 class="text-lg font-semibold text-white mb-4">Phân bổ dịch vụ</h3>
+                    <canvas id="servicesChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Activity Log -->
+            <div class="bg-grayDark/30 border border-grayDark/50 backdrop-blur-sm rounded-2xl p-6">
+                <h3 class="text-lg font-semibold text-white mb-4">Hoạt động gần đây</h3>
+                <div class="space-y-4" id="activity-log-container">
+                    <!-- Activities injected here -->
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="../js/admin-core.js"></script>
+    <script src="../js/admin-dashboard.js"></script>
+</body>
+</html>

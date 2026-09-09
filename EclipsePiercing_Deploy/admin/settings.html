@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cài đặt hệ thống | Eclipse Piercing Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: '#0A0A0A',
+                        gold: '#D4AF37',
+                        'gold-light': '#F3E5AB',
+                        grayDark: '#1E1E1E',
+                        grayMid: '#2A2A2A',
+                        grayLight: '#B3B3B3',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body class="bg-dark text-grayLight font-sans antialiased">
+    <div id="admin-sidebar"></div>
+    
+    <main id="admin-main" class="admin-main">
+        <header class="admin-topbar">
+            <div class="flex items-center gap-3">
+                <button id="sidebar-toggle" class="lg:hidden text-grayLight hover:text-white">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+                <h1 class="text-xl font-bold text-white">Cài đặt hệ thống</h1>
+            </div>
+            <div id="admin-user-info"></div>
+        </header>
+        
+        <div class="admin-content p-6">
+            
+            <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+                <!-- Main Settings Column -->
+                <div class="xl:col-span-2 space-y-8">
+                    
+                    <!-- Thông tin Studio -->
+                    <div class="bg-grayDark/30 border border-grayDark/50 backdrop-blur-sm rounded-2xl p-6">
+                        <div class="flex items-center gap-3 mb-6">
+                            <i class="fa-solid fa-building text-gold text-xl"></i>
+                            <h2 class="text-xl font-bold text-white">Thông tin Studio</h2>
+                        </div>
+                        <form id="studio-info-form" class="space-y-5">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                <div class="md:col-span-2">
+                                    <label class="block text-sm mb-1 text-grayLight">Tên Studio</label>
+                                    <input type="text" id="setting-name" class="w-full bg-dark border border-grayMid rounded-lg px-4 py-2 text-white focus:outline-none focus:border-gold">
+                                </div>
+                                <div>
+                                    <label class="block text-sm mb-1 text-grayLight">Số điện thoại</label>
+                                    <input type="text" id="setting-phone" class="w-full bg-dark border border-grayMid rounded-lg px-4 py-2 text-white focus:outline-none focus:border-gold">
+                                </div>
+                                <div>
+                                    <label class="block text-sm mb-1 text-grayLight">Email</label>
+                                    <input type="email" id="setting-email" class="w-full bg-dark border border-grayMid rounded-lg px-4 py-2 text-white focus:outline-none focus:border-gold">
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label class="block text-sm mb-1 text-grayLight">Địa chỉ</label>
+                                    <input type="text" id="setting-address" class="w-full bg-dark border border-grayMid rounded-lg px-4 py-2 text-white focus:outline-none focus:border-gold">
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label class="block text-sm mb-1 text-grayLight">Giờ mở cửa</label>
+                                    <input type="text" id="setting-hours" class="w-full bg-dark border border-grayMid rounded-lg px-4 py-2 text-white focus:outline-none focus:border-gold">
+                                </div>
+                                <div>
+                                    <label class="block text-sm mb-1 text-grayLight"><i class="fa-brands fa-facebook mr-1"></i>Link Facebook</label>
+                                    <input type="url" id="setting-fb" class="w-full bg-dark border border-grayMid rounded-lg px-4 py-2 text-white focus:outline-none focus:border-gold">
+                                </div>
+                                <div>
+                                    <label class="block text-sm mb-1 text-grayLight"><i class="fa-brands fa-instagram mr-1"></i>Link Instagram</label>
+                                    <input type="url" id="setting-ig" class="w-full bg-dark border border-grayMid rounded-lg px-4 py-2 text-white focus:outline-none focus:border-gold">
+                                </div>
+                                <div>
+                                    <label class="block text-sm mb-1 text-grayLight"><i class="fa-brands fa-tiktok mr-1"></i>Link TikTok</label>
+                                    <input type="url" id="setting-tiktok" class="w-full bg-dark border border-grayMid rounded-lg px-4 py-2 text-white focus:outline-none focus:border-gold">
+                                </div>
+                                <div>
+                                    <label class="block text-sm mb-1 text-grayLight"><i class="fa-brands fa-facebook-messenger mr-1"></i>Link Messenger</label>
+                                    <input type="url" id="setting-messenger" class="w-full bg-dark border border-grayMid rounded-lg px-4 py-2 text-white focus:outline-none focus:border-gold">
+                                </div>
+                            </div>
+                            <div class="flex justify-end pt-4">
+                                <button type="submit" class="bg-gold hover:bg-gold-light text-dark px-6 py-2 rounded-lg font-medium transition-colors">
+                                    <i class="fa-solid fa-floppy-disk mr-2"></i>Lưu thay đổi
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Nhật ký hoạt động -->
+                    <div class="bg-grayDark/30 border border-grayDark/50 backdrop-blur-sm rounded-2xl p-6">
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-clipboard-list text-blue-400 text-xl"></i>
+                                <h2 class="text-xl font-bold text-white">Nhật ký hoạt động</h2>
+                            </div>
+                            <button id="btn-clear-log" class="text-grayLight hover:text-red-400 text-sm transition-colors">
+                                <i class="fa-solid fa-trash mr-1"></i>Xóa nhật ký
+                            </button>
+                        </div>
+                        <div class="overflow-x-auto max-h-96 overflow-y-auto">
+                            <table class="w-full text-left text-sm">
+                                <thead class="sticky top-0 bg-grayDark">
+                                    <tr class="border-b border-grayMid/50 text-grayLight/70">
+                                        <th class="p-3 font-medium">Thời gian</th>
+                                        <th class="p-3 font-medium">Người dùng</th>
+                                        <th class="p-3 font-medium">Hành động</th>
+                                        <th class="p-3 font-medium">Chi tiết</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="activity-log-table">
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Side Column -->
+                <div class="space-y-8">
+                    <!-- Backup & Restore -->
+                    <div class="bg-grayDark/30 border border-grayDark/50 backdrop-blur-sm rounded-2xl p-6">
+                        <div class="flex items-center gap-3 mb-6">
+                            <i class="fa-solid fa-database text-green-400 text-xl"></i>
+                            <h2 class="text-xl font-bold text-white">Sao lưu & Phục hồi</h2>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <button id="btn-export-data" class="w-full flex items-center justify-center gap-2 bg-dark border border-grayMid hover:border-gold text-white px-4 py-3 rounded-lg transition-colors">
+                                <i class="fa-solid fa-download text-gold"></i>
+                                Tải xuống bản sao lưu
+                            </button>
+                            
+                            <div class="relative">
+                                <input type="file" id="import-file" class="hidden" accept=".json">
+                                <label for="import-file" class="w-full flex items-center justify-center gap-2 bg-dark border border-grayMid hover:border-blue-400 text-white px-4 py-3 rounded-lg cursor-pointer transition-colors">
+                                    <i class="fa-solid fa-upload text-blue-400"></i>
+                                    Phục hồi từ file
+                                </label>
+                            </div>
+                            
+                            <div class="border-t border-grayMid/50 pt-4 mt-4">
+                                <button id="btn-reset-data" class="w-full flex items-center justify-center gap-2 bg-red-500/10 border border-red-500/30 hover:bg-red-500/20 text-red-400 px-4 py-3 rounded-lg transition-colors">
+                                    <i class="fa-solid fa-triangle-exclamation"></i>
+                                    Khôi phục dữ liệu gốc
+                                </button>
+                                <p class="text-xs text-grayLight mt-2 text-center">Xóa toàn bộ dữ liệu hiện tại và khôi phục về trạng thái mặc định ban đầu.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- System Info -->
+                    <div class="bg-grayDark/30 border border-grayDark/50 backdrop-blur-sm rounded-2xl p-6">
+                        <div class="flex items-center gap-3 mb-6">
+                            <i class="fa-solid fa-server text-purple-400 text-xl"></i>
+                            <h2 class="text-xl font-bold text-white">Thông tin hệ thống</h2>
+                        </div>
+                        
+                        <div class="space-y-4 text-sm">
+                            <div class="flex justify-between pb-3 border-b border-grayMid/30">
+                                <span class="text-grayLight">Phiên bản</span>
+                                <span class="text-white font-medium">1.0.0</span>
+                            </div>
+                            <div class="flex justify-between pb-3 border-b border-grayMid/30">
+                                <span class="text-grayLight">Dung lượng bộ nhớ</span>
+                                <span id="sys-storage" class="text-white font-medium">Đang tính toán...</span>
+                            </div>
+                            <div class="flex justify-between pb-3 border-b border-grayMid/30">
+                                <span class="text-grayLight">Số lượng bài viết</span>
+                                <span id="sys-posts" class="text-white font-medium">0</span>
+                            </div>
+                            <div class="flex justify-between pb-3 border-b border-grayMid/30">
+                                <span class="text-grayLight">Số lượng dịch vụ</span>
+                                <span id="sys-services" class="text-white font-medium">0</span>
+                            </div>
+                            <div class="flex justify-between pb-3 border-b border-grayMid/30">
+                                <span class="text-grayLight">Hình ảnh Gallery</span>
+                                <span id="sys-gallery" class="text-white font-medium">0</span>
+                            </div>
+                            <div class="flex justify-between pb-3 border-b border-grayMid/30">
+                                <span class="text-grayLight">Tổng Booking</span>
+                                <span id="sys-bookings" class="text-white font-medium">0</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-grayLight">Lần sao lưu cuối</span>
+                                <span id="sys-last-backup" class="text-white font-medium">Chưa có</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../js/admin-core.js"></script>
+    <script src="../js/admin-settings.js"></script>
+</body>
+</html>

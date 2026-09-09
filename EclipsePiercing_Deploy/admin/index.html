@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập | Eclipse Piercing Admin</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: '#0A0A0A',
+                        gold: '#D4AF37',
+                        'gold-light': '#F3E5AB',
+                        grayDark: '#1E1E1E',
+                        grayMid: '#2A2A2A',
+                        grayLight: '#B3B3B3',
+                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-dark font-sans antialiased">
+
+    <div class="login-container">
+        <!-- Decorative elements -->
+        <div class="absolute top-10 left-10 w-20 h-20 border border-grayDark/30 rounded-full opacity-20 animate-pulse"></div>
+        <div class="absolute bottom-20 right-20 w-32 h-32 border border-gold/10 rounded-full opacity-30"></div>
+        <div class="absolute top-1/3 right-1/4 w-2 h-2 bg-gold/30 rounded-full animate-ping"></div>
+
+        <div class="login-card">
+            <!-- Logo -->
+            <div class="login-logo">
+                <img src="https://res.cloudinary.com/dmqg578zx/image/upload/f_auto,q_auto/ChatGPT_Image_13_32_42_4_thg_6_2026_efamgb" alt="Eclipse Piercing" onerror="this.src='https://placehold.co/80x80/1E1E1E/D4AF37?text=EP'">
+                <h1>ECLIPSE <span class="text-gradient">ADMIN</span></h1>
+                <p>Quản trị website Eclipse Piercing</p>
+            </div>
+
+            <!-- Error Message -->
+            <div class="login-error" id="login-error">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <span id="login-error-text"></span>
+            </div>
+
+            <!-- Login Form -->
+            <form id="login-form" class="space-y-5" onsubmit="return false;">
+                <div class="form-group" style="margin-bottom:16px;">
+                    <label class="form-label">
+                        <i class="fa-regular fa-user mr-1 text-gold/60"></i> Tên đăng nhập
+                    </label>
+                    <input type="text" id="login-username" class="form-input" placeholder="Nhập tên đăng nhập" autocomplete="username" required autofocus>
+                </div>
+
+                <div class="form-group" style="margin-bottom:20px;">
+                    <label class="form-label">
+                        <i class="fa-solid fa-lock mr-1 text-gold/60"></i> Mật khẩu
+                    </label>
+                    <div class="relative">
+                        <input type="password" id="login-password" class="form-input pr-12" placeholder="Nhập mật khẩu" autocomplete="current-password" required>
+                        <button type="button" id="toggle-password" class="absolute right-3 top-1/2 -translate-y-1/2 text-grayLight/50 hover:text-gold transition-colors" tabindex="-1">
+                            <i class="fa-regular fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" id="login-btn" class="btn btn-primary btn-lg w-full" style="font-size:15px;">
+                    <i class="fa-solid fa-right-to-bracket"></i>
+                    Đăng nhập
+                </button>
+            </form>
+
+            <!-- Footer -->
+            <div class="mt-8 pt-6 border-t border-grayDark/50 text-center">
+                <a href="../index.html" class="text-xs text-grayLight/40 hover:text-gold transition-colors inline-flex items-center gap-1">
+                    <i class="fa-solid fa-arrow-left text-[10px]"></i>
+                    Quay lại website
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/admin-core.js"></script>
+    <script>
+        (function() {
+            'use strict';
+
+            // Initialize app data if first visit
+            AdminCore.initializeApp();
+
+            // If already logged in, redirect to dashboard
+            const session = sessionStorage.getItem('ep_session');
+            if (session) {
+                window.location.href = 'dashboard.html';
+                return;
+            }
+
+            const form = document.getElementById('login-form');
+            const usernameInput = document.getElementById('login-username');
+            const passwordInput = document.getElementById('login-password');
+            const errorBox = document.getElementById('login-error');
+            const errorText = document.getElementById('login-error-text');
+            const loginBtn = document.getElementById('login-btn');
+            const togglePwdBtn = document.getElementById('toggle-password');
+
+            // Toggle password visibility
+            togglePwdBtn.addEventListener('click', () => {
+                const isPassword = passwordInput.type === 'password';
+                passwordInput.type = isPassword ? 'text' : 'password';
+                togglePwdBtn.innerHTML = isPassword
+                    ? '<i class="fa-regular fa-eye-slash"></i>'
+                    : '<i class="fa-regular fa-eye"></i>';
+            });
+
+            // Handle form submit
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const username = usernameInput.value.trim();
+                const password = passwordInput.value;
+
+                if (!username || !password) {
+                    showError('Vui lòng nhập đầy đủ thông tin');
+                    return;
+                }
+
+                // Disable button during login
+                loginBtn.disabled = true;
+                loginBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang đăng nhập...';
+
+                // Small delay for UX
+                setTimeout(() => {
+                    const result = AdminCore.login(username, password);
+                    
+                    if (result.success) {
+                        loginBtn.innerHTML = '<i class="fa-solid fa-check"></i> Thành công!';
+                        loginBtn.classList.remove('btn-primary');
+                        loginBtn.classList.add('btn-success');
+                        errorBox.classList.remove('active');
+
+                        setTimeout(() => {
+                            window.location.href = 'dashboard.html';
+                        }, 500);
+                    } else {
+                        showError(result.error);
+                        loginBtn.disabled = false;
+                        loginBtn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Đăng nhập';
+                        passwordInput.value = '';
+                        passwordInput.focus();
+                    }
+                }, 400);
+            });
+
+            function showError(msg) {
+                errorText.textContent = msg;
+                errorBox.classList.add('active');
+                
+                // Shake animation
+                errorBox.style.animation = 'none';
+                errorBox.offsetHeight;
+                errorBox.style.animation = 'shake 0.4s ease';
+            }
+
+            // Enter key support
+            passwordInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') form.dispatchEvent(new Event('submit'));
+            });
+        })();
+    </script>
+
+    <style>
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+    </style>
+</body>
+</html>

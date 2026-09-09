@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEO Manager | Eclipse Piercing Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: '#0A0A0A',
+                        gold: '#D4AF37',
+                        'gold-light': '#F3E5AB',
+                        grayDark: '#1E1E1E',
+                        grayMid: '#2A2A2A',
+                        grayLight: '#B3B3B3',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body class="bg-dark text-grayLight font-sans antialiased">
+    <div id="admin-sidebar"></div>
+    
+    <main id="admin-main" class="admin-main">
+        <header class="admin-topbar">
+            <div class="flex items-center gap-3">
+                <button id="sidebar-toggle" class="lg:hidden text-grayLight hover:text-white">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+                <h1 class="text-xl font-bold text-white">SEO Manager</h1>
+            </div>
+            <div id="admin-user-info"></div>
+        </header>
+        
+        <div class="admin-content">
+            <div class="bg-grayDark/30 border border-grayDark/50 backdrop-blur-sm rounded-2xl overflow-hidden mb-6">
+                <!-- Tabs -->
+                <div class="flex border-b border-grayMid overflow-x-auto">
+                    <button class="seo-tab-btn active px-6 py-4 font-medium text-gold border-b-2 border-gold whitespace-nowrap" data-target="tab-meta">Meta Tags</button>
+                    <button class="seo-tab-btn px-6 py-4 font-medium text-grayLight hover:text-white whitespace-nowrap" data-target="tab-og">Open Graph</button>
+                    <button class="seo-tab-btn px-6 py-4 font-medium text-grayLight hover:text-white whitespace-nowrap" data-target="tab-robots">Robots.txt</button>
+                    <button class="seo-tab-btn px-6 py-4 font-medium text-grayLight hover:text-white whitespace-nowrap" data-target="tab-schema">Structured Data</button>
+                    <button class="seo-tab-btn px-6 py-4 font-medium text-grayLight hover:text-white whitespace-nowrap" data-target="tab-audit">SEO Audit</button>
+                </div>
+                
+                <div class="p-6">
+                    <!-- Tab: Meta Tags -->
+                    <div id="tab-meta" class="seo-tab-content">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <form id="form-meta" class="space-y-6">
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <label class="text-white font-medium">Meta Title</label>
+                                        <span class="text-sm text-grayLight"><span id="count-title">0</span> chars (Target: 50-60)</span>
+                                    </div>
+                                    <input type="text" id="meta-title" class="w-full bg-dark border border-grayMid text-white rounded-lg p-3 outline-none focus:border-gold">
+                                </div>
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <label class="text-white font-medium">Meta Description</label>
+                                        <span class="text-sm text-grayLight"><span id="count-desc">0</span> chars (Target: 150-160)</span>
+                                    </div>
+                                    <textarea id="meta-desc" rows="4" class="w-full bg-dark border border-grayMid text-white rounded-lg p-3 outline-none focus:border-gold"></textarea>
+                                </div>
+                                <div>
+                                    <label class="block text-white font-medium mb-1">Meta Keywords</label>
+                                    <input type="text" id="meta-keywords" class="w-full bg-dark border border-grayMid text-white rounded-lg p-3 outline-none focus:border-gold" placeholder="piercing hanoi, xỏ khuyên, eclipse piercing...">
+                                </div>
+                                <button type="button" class="btn-save bg-gold text-dark px-6 py-2 rounded-lg font-medium hover:bg-gold-light transition-colors">Lưu Meta Tags</button>
+                            </form>
+                            
+                            <div>
+                                <h3 class="text-white font-medium mb-4">Google Search Preview</h3>
+                                <div class="bg-white p-4 rounded-lg w-full max-w-[600px] font-sans" style="color: #4d5156;">
+                                    <div class="text-sm mb-1 truncate" style="color: #202124;">https://eclipsepiercing.com</div>
+                                    <div class="text-[20px] mb-1 truncate text-[#1a0dab] hover:underline cursor-pointer" id="preview-g-title">Eclipse Piercing</div>
+                                    <div class="text-sm line-clamp-2" id="preview-g-desc">Mô tả website sẽ hiển thị ở đây.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab: Open Graph -->
+                    <div id="tab-og" class="seo-tab-content hidden">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <form id="form-og" class="space-y-6">
+                                <div>
+                                    <label class="block text-white font-medium mb-1">OG Title</label>
+                                    <input type="text" id="og-title" class="w-full bg-dark border border-grayMid text-white rounded-lg p-3 outline-none focus:border-gold">
+                                </div>
+                                <div>
+                                    <label class="block text-white font-medium mb-1">OG Description</label>
+                                    <textarea id="og-desc" rows="3" class="w-full bg-dark border border-grayMid text-white rounded-lg p-3 outline-none focus:border-gold"></textarea>
+                                </div>
+                                <div>
+                                    <label class="block text-white font-medium mb-1">OG Image URL</label>
+                                    <input type="text" id="og-image" class="w-full bg-dark border border-grayMid text-white rounded-lg p-3 outline-none focus:border-gold" placeholder="https://example.com/image.jpg">
+                                </div>
+                                <button type="button" class="btn-save bg-gold text-dark px-6 py-2 rounded-lg font-medium hover:bg-gold-light transition-colors">Lưu Open Graph</button>
+                            </form>
+                            
+                            <div>
+                                <h3 class="text-white font-medium mb-4">Facebook Share Preview</h3>
+                                <div class="bg-dark border border-grayMid rounded-lg overflow-hidden w-full max-w-[500px]">
+                                    <div class="bg-grayDark w-full h-48 flex items-center justify-center overflow-hidden border-b border-grayMid">
+                                        <img id="preview-fb-img" src="" alt="OG Image Preview" class="w-full h-full object-cover hidden">
+                                        <span id="preview-fb-placeholder" class="text-grayLight"><i class="fa-regular fa-image text-4xl"></i></span>
+                                    </div>
+                                    <div class="p-3 bg-grayMid/30">
+                                        <div class="text-[12px] text-grayLight uppercase mb-1">ECLIPSEPIERCING.COM</div>
+                                        <div class="text-white font-semibold text-[16px] truncate mb-1" id="preview-fb-title">OG Title</div>
+                                        <div class="text-grayLight text-[14px] line-clamp-1" id="preview-fb-desc">OG Description</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab: Robots.txt -->
+                    <div id="tab-robots" class="seo-tab-content hidden">
+                        <div class="mb-4 flex gap-3">
+                            <button type="button" class="btn-robots-preset bg-grayMid text-white px-4 py-2 rounded-lg hover:bg-grayLight hover:text-dark transition-colors text-sm" data-preset="standard">Standard</button>
+                            <button type="button" class="btn-robots-preset bg-grayMid text-white px-4 py-2 rounded-lg hover:bg-grayLight hover:text-dark transition-colors text-sm" data-preset="allow">Allow All</button>
+                            <button type="button" class="btn-robots-preset bg-grayMid text-white px-4 py-2 rounded-lg hover:bg-grayLight hover:text-dark transition-colors text-sm" data-preset="block">Block All</button>
+                        </div>
+                        <textarea id="robots-content" rows="10" class="w-full font-mono text-sm bg-dark border border-grayMid text-grayLight rounded-lg p-4 outline-none focus:border-gold mb-4"></textarea>
+                        <button type="button" class="btn-save bg-gold text-dark px-6 py-2 rounded-lg font-medium hover:bg-gold-light transition-colors">Lưu Robots.txt</button>
+                    </div>
+
+                    <!-- Tab: Structured Data -->
+                    <div id="tab-schema" class="seo-tab-content hidden">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <form id="form-schema" class="space-y-4">
+                                <h3 class="text-white font-medium">LocalBusiness Schema</h3>
+                                <div>
+                                    <label class="block text-grayLight text-sm mb-1">Business Name</label>
+                                    <input type="text" id="schema-name" class="w-full bg-dark border border-grayMid text-white rounded-lg p-2.5 outline-none focus:border-gold">
+                                </div>
+                                <div>
+                                    <label class="block text-grayLight text-sm mb-1">Address</label>
+                                    <input type="text" id="schema-address" class="w-full bg-dark border border-grayMid text-white rounded-lg p-2.5 outline-none focus:border-gold">
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-grayLight text-sm mb-1">Phone</label>
+                                        <input type="text" id="schema-phone" class="w-full bg-dark border border-grayMid text-white rounded-lg p-2.5 outline-none focus:border-gold">
+                                    </div>
+                                    <div>
+                                        <label class="block text-grayLight text-sm mb-1">Email</label>
+                                        <input type="email" id="schema-email" class="w-full bg-dark border border-grayMid text-white rounded-lg p-2.5 outline-none focus:border-gold">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-grayLight text-sm mb-1">Opening Hours (e.g. Mo-Su 10:00-21:00)</label>
+                                    <input type="text" id="schema-hours" class="w-full bg-dark border border-grayMid text-white rounded-lg p-2.5 outline-none focus:border-gold">
+                                </div>
+                                <button type="button" class="btn-save bg-gold text-dark px-6 py-2 rounded-lg font-medium hover:bg-gold-light transition-colors mt-4">Lưu Schema & Tạo JSON-LD</button>
+                            </form>
+                            
+                            <div>
+                                <h3 class="text-white font-medium mb-2">JSON-LD Output</h3>
+                                <div class="bg-dark border border-grayMid rounded-lg p-4 h-[350px] overflow-y-auto">
+                                    <pre id="schema-output" class="text-sm font-mono text-green-400 whitespace-pre-wrap"></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab: SEO Audit -->
+                    <div id="tab-audit" class="seo-tab-content hidden">
+                        <div class="flex flex-col items-center justify-center mb-8">
+                            <div class="relative w-32 h-32 mb-4">
+                                <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                                    <path class="text-grayMid stroke-current" stroke-width="3" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                    <path id="audit-score-circle" class="text-gold stroke-current" stroke-width="3" stroke-dasharray="0, 100" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                </svg>
+                                <div class="absolute inset-0 flex items-center justify-center flex-col">
+                                    <span id="audit-score-text" class="text-3xl font-bold text-white">0</span>
+                                    <span class="text-[10px] text-grayLight uppercase">Score</span>
+                                </div>
+                            </div>
+                            <button id="btn-run-audit" class="bg-gold text-dark px-6 py-2 rounded-lg font-medium hover:bg-gold-light transition-colors">
+                                <i class="fa-solid fa-rotate-right mr-2"></i>Run SEO Audit
+                            </button>
+                        </div>
+                        
+                        <div class="space-y-4 max-w-3xl mx-auto" id="audit-checklist">
+                            <!-- Populated by JS -->
+                            <div class="text-center text-grayLight">Click "Run SEO Audit" to check your settings.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../js/admin-core.js"></script>
+    <script src="../js/admin-seo.js"></script>
+</body>
+</html>

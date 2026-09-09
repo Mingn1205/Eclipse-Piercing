@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý bài viết | Eclipse Piercing Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: '#0A0A0A',
+                        gold: '#D4AF37',
+                        'gold-light': '#F3E5AB',
+                        grayDark: '#1E1E1E',
+                        grayMid: '#2A2A2A',
+                        grayLight: '#B3B3B3',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body class="bg-dark text-grayLight font-sans antialiased">
+    <!-- Sidebar is injected by admin-core.js -->
+    <div id="admin-sidebar" data-active="posts"></div>
+    
+    <!-- Main Content -->
+    <main id="admin-main" class="admin-main">
+        <!-- Top Bar -->
+        <header class="admin-topbar">
+            <div class="flex items-center gap-3">
+                <button id="sidebar-toggle" class="lg:hidden text-grayLight hover:text-white">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+                <h1 class="text-xl font-bold text-white">Quản lý bài viết</h1>
+            </div>
+            <div id="admin-user-info"></div>
+        </header>
+        
+        <!-- Page Content -->
+        <div class="admin-content">
+            <!-- Toolbar -->
+            <div class="flex flex-col md:flex-row justify-between gap-4 mb-6">
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <div class="relative">
+                        <i class="fa-solid fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-grayLight"></i>
+                        <input type="text" id="search-input" placeholder="Tìm kiếm bài viết..." class="bg-grayDark/50 border border-grayDark rounded-lg pl-10 pr-4 py-2 text-white focus:outline-none focus:border-gold w-full sm:w-64">
+                    </div>
+                    <select id="filter-status" class="bg-grayDark/50 border border-grayDark rounded-lg px-4 py-2 text-white focus:outline-none focus:border-gold appearance-none cursor-pointer">
+                        <option value="all">Tất cả trạng thái</option>
+                        <option value="published">Đã đăng</option>
+                        <option value="draft">Nháp</option>
+                    </select>
+                </div>
+                <a href="post-editor.html" class="bg-gold text-dark px-4 py-2 rounded-lg font-medium hover:bg-gold-light transition-colors inline-flex items-center gap-2 justify-center">
+                    <i class="fa-solid fa-plus"></i> Tạo bài mới
+                </a>
+            </div>
+
+            <!-- Table Card -->
+            <div class="bg-grayDark/30 border border-grayDark/50 backdrop-blur-sm rounded-2xl overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse" id="posts-table">
+                        <thead>
+                            <tr class="bg-grayDark/50 border-b border-grayDark/50 text-white">
+                                <th class="p-4 w-12 text-center">
+                                    <input type="checkbox" id="select-all" class="rounded border-grayDark bg-dark accent-gold w-4 h-4 cursor-pointer">
+                                </th>
+                                <th class="p-4 font-medium">Tiêu đề</th>
+                                <th class="p-4 font-medium">Trạng thái</th>
+                                <th class="p-4 font-medium">Danh mục</th>
+                                <th class="p-4 font-medium">Ngày tạo</th>
+                                <th class="p-4 font-medium text-right">Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody id="posts-tbody" class="divide-y divide-grayDark/50">
+                            <!-- Data will be injected here -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Empty State -->
+                <div id="empty-state" class="hidden flex-col items-center justify-center py-12 text-center">
+                    <div class="w-16 h-16 rounded-full bg-grayDark/50 flex items-center justify-center text-grayLight mb-4">
+                        <i class="fa-solid fa-newspaper text-2xl"></i>
+                    </div>
+                    <h3 class="text-white font-medium text-lg mb-1">Không tìm thấy bài viết nào</h3>
+                    <p class="text-sm">Hãy thử thay đổi bộ lọc hoặc tạo bài viết mới.</p>
+                </div>
+
+                <!-- Pagination -->
+                <div class="p-4 border-t border-grayDark/50 flex flex-col sm:flex-row items-center justify-between gap-4" id="pagination-container">
+                    <div class="text-sm" id="pagination-info">
+                        Hiển thị 1 đến 10 của 0 bài viết
+                    </div>
+                    <div class="flex items-center gap-1" id="pagination-controls">
+                        <!-- Buttons injected here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../js/admin-core.js"></script>
+    <script src="../js/admin-posts.js"></script>
+</body>
+</html>

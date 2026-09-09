@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | Eclipse Piercing</title>
+    <meta name="description" content="Blog Eclipse Piercing - Kiến thức về xỏ khuyên, hướng dẫn chăm sóc, tin tức và xu hướng piercing mới nhất.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: '#0A0A0A',
+                        gold: '#D4AF37',
+                        grayDark: '#1E1E1E',
+                        grayLight: '#B3B3B3',
+                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="css/blog.css">
+    <style>
+        body { background-color: #0A0A0A; color: #B3B3B3; overflow-x: hidden; }
+        h1, h2, h3, h4, h5, h6 { color: #FFFFFF; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0A0A0A; }
+        ::-webkit-scrollbar-thumb { background: #1E1E1E; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #D4AF37; }
+        .text-gradient {
+            background: linear-gradient(to right, #D4AF37, #F3E5AB);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .pagination-btn {
+            width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center;
+            border-radius: 8px; border: 1px solid #2A2A2A; background: transparent; color: #B3B3B3;
+            font-size: 14px; font-weight: 500; text-decoration: none; transition: all 0.2s ease;
+        }
+        .pagination-btn:hover { border-color: #D4AF37; color: #D4AF37; }
+        .pagination-btn.active { background: #D4AF37; border-color: #D4AF37; color: #0A0A0A; font-weight: 700; }
+    </style>
+</head>
+<body class="antialiased selection:bg-gold selection:text-dark">
+
+    <!-- Navbar -->
+    <header class="fixed w-full top-0 z-50">
+        <div class="absolute inset-0 bg-dark/90 backdrop-blur-md border-b border-grayDark"></div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="flex items-center justify-between h-20">
+                <a href="index.html" class="flex items-center gap-3 group">
+                    <img src="https://res.cloudinary.com/dmqg578zx/image/upload/f_auto,q_auto/ChatGPT_Image_13_32_42_4_thg_6_2026_efamgb" alt="Eclipse Piercing" class="h-12 w-auto" onerror="this.src='https://placehold.co/48x48/1E1E1E/D4AF37?text=EP'">
+                    <span class="text-white font-bold text-xl tracking-wider uppercase hidden sm:block">Eclipse</span>
+                </a>
+                <nav class="hidden md:flex items-center gap-8">
+                    <a href="index.html" class="text-sm font-medium text-grayLight hover:text-gold transition-colors">Trang chủ</a>
+                    <a href="index.html#services" class="text-sm font-medium text-grayLight hover:text-gold transition-colors">Dịch vụ</a>
+                    <a href="index.html#gallery" class="text-sm font-medium text-grayLight hover:text-gold transition-colors">Thư viện</a>
+                    <a href="blog.html" class="text-sm font-medium text-gold">Blog</a>
+                </nav>
+                <a href="index.html#booking" class="hidden md:flex items-center gap-2 bg-gold text-dark px-6 py-2.5 rounded-full font-semibold hover:bg-white transition-colors">
+                    <span>Đặt lịch</span>
+                    <i class="fa-solid fa-arrow-right text-sm"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="blog-hero bg-dark">
+        <div class="container mx-auto px-6">
+            <div class="max-w-3xl">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-grayDark bg-grayDark/30 text-xs font-medium tracking-widest uppercase text-gold mb-6">
+                    <i class="fa-solid fa-pen-nib"></i> Blog
+                </div>
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">
+                    Kiến Thức <span class="text-gradient">Piercing</span>
+                </h1>
+                <p class="text-lg text-grayLight max-w-xl">
+                    Khám phá những bài viết chuyên sâu về xỏ khuyên, chăm sóc sau xỏ và xu hướng piercing mới nhất.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Content -->
+    <section class="py-12 bg-dark">
+        <div class="container mx-auto px-6">
+            <!-- Filters -->
+            <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
+                <div id="category-filters" class="category-filters"></div>
+                <span id="post-count" class="text-sm text-grayLight/50"></span>
+            </div>
+
+            <!-- Blog Grid -->
+            <div id="blog-grid" class="blog-grid"></div>
+
+            <!-- Empty State -->
+            <div id="blog-empty" class="text-center py-20" style="display:none;">
+                <i class="fa-regular fa-newspaper text-5xl text-grayDark mb-4 block"></i>
+                <h3 class="text-xl font-bold text-white mb-2">Chưa có bài viết nào</h3>
+                <p class="text-grayLight mb-6">Các bài viết sẽ sớm được đăng tải. Hãy quay lại sau nhé!</p>
+                <a href="index.html" class="inline-flex items-center gap-2 bg-gold text-dark px-6 py-3 rounded-full font-bold hover:bg-white transition-colors">
+                    <i class="fa-solid fa-arrow-left"></i> Quay lại trang chủ
+                </a>
+            </div>
+
+            <!-- Pagination -->
+            <div id="blog-pagination" class="flex items-center justify-center gap-2 mt-12"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark border-t border-grayDark py-12">
+        <div class="container mx-auto px-6 text-center">
+            <img src="https://res.cloudinary.com/dmqg578zx/image/upload/f_auto,q_auto/ChatGPT_Image_13_32_42_4_thg_6_2026_efamgb" alt="Eclipse Piercing" class="h-16 mx-auto mb-4" onerror="this.src='https://placehold.co/64x64/1E1E1E/D4AF37?text=EP'">
+            <p class="text-grayLight/50 text-sm mb-2">&copy; 2024 Eclipse Piercing. All rights reserved.</p>
+            <div class="flex justify-center gap-4 mt-4">
+                <a href="https://www.facebook.com/xokhuyeneclipse" target="_blank" class="text-grayLight/40 hover:text-gold transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/naivebinnmuseum/" target="_blank" class="text-grayLight/40 hover:text-gold transition-colors"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/blog.js"></script>
+</body>
+</html>
